@@ -1,0 +1,45 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Профиль{% endblock %}
+{% block css-file %}{% static 'main/css/main.css' %}{% endblock %}
+
+{% block content %}
+<div class="wrap">
+  <div class="profile-section" style="display:flex; gap:50px; margin-top:80px; flex-wrap: wrap;">
+
+    <!-- Левый блок — информация пользователя -->
+    <div class="info-block profile-left" >
+      <h2 class="info-title">Привет, {{ user.username }} 👋</h2>
+      <div class="profile-info">
+        <p><strong>Логин:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+      </div>
+      <a href="{% url 'logout_user' %}" class="back-button">Выйти</a>
+    </div>
+
+    <!-- Правый блок — заказы -->
+    <div class="orders-section profile-right">
+      <h2 class="info-title">Мои заказы</h2>
+      {% if orders %}
+      <div class="catalog1">
+        {% for order in orders %}
+        <div class="card1">
+          <div class="card-cont">
+            <h3>Заказ №{{ order.id }} — {{ order.cake_name }}</h3>
+            <p class="per-item-price">Статус: {{ order.get_status_display }}</p>
+            <p class="per-item-price">Дата: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="no-orders-text">У вас пока нет заказов</p>
+      <a href="{% url 'catalog' %}" class="choice-btn">Сделать заказ</a>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

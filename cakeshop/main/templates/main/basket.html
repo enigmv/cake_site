@@ -1,0 +1,104 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block css-file %}{% static 'main/css/main.css' %}{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="basket-area">
+    <div class="left-side">
+
+        <div class="selected-card">
+            <div class="card-img im4"></div>
+            <div class="card-cont">
+                <button class="delete-button"><i class="fa-solid fa-xmark"></i></button>
+                <h3>Торт с вишней</h3>
+                <p class="per-item-price">2 000 руб./шт.</p>
+                <div class="bottom-line">
+                <div class="quantity-wrapper">
+                    <div class="first-but">
+                    <button class="decrement">−</button>
+                    <span class="quantity">1</span>
+                    <button class="increment">+</button>
+                    </div>
+                </div>
+                <div class="price">2 000 руб.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="selected-card">
+            <div class="card-img im4"></div>
+            <div class="card-cont">
+                <button class="delete-button"><i class="fa-solid fa-xmark"></i></button>
+                <h3>Торт с вишней</h3>
+                <p class="per-item-price">2 000 руб./шт.</p>
+                <div class="bottom-line">
+                    <div class="quantity-wrapper">
+                        <div class="first-but">
+                        <button class="decrement">−</button>
+                        <span class="quantity">1</span>
+                        <button class="increment">+</button>
+                        </div>
+                    </div>
+                    <div class="price">2 000 руб.</div>
+                </div>
+            </div>
+        </div>
+
+                        <div class="selected-card">
+            <div class="card-img im4"></div>
+            <div class="card-cont">
+                <button class="delete-button"><i class="fa-solid fa-xmark"></i></button>
+                <h3>Торт с вишней</h3>
+                <p class="per-item-price">2 000 руб./шт.</p>
+                <div class="bottom-line">
+                    <div class="quantity-wrapper">
+                        <div class="first-but">
+                        <button class="decrement">−</button>
+                        <span class="quantity">1</span>
+                        <button class="increment">+</button>
+                        </div>
+                    </div>
+                    <div class="price">2 000 руб.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="payment-card">
+
+        <h1>Ваша корзина</h1>
+
+        <div class="price-row">
+            <span>Товары</span>
+            <span>6 000 руб.</span>
+        </div>
+        <div class="price-row">
+            <span>Скидка</span>
+            <span>200 руб.</span>
+        </div>
+        <div class="price-row total">
+            <span>Стоимость</span>
+            <span>5 800 руб.</span>
+        </div>
+
+        <h2>Дата и время получения</h2>
+        <input type="date" id="date" name="date" />
+        <input type="time" id="time" name="time" min="09:00" max="20:00" />
+
+        <h2>Комментарий к заказу</h2>
+        <textarea class="comments" placeholder="Есть важные уточнения? Напишите здесь (аллергии, упаковка, детали доставки)."></textarea>
+
+        <button class="buy-button">Оформить заказ</button>
+        <a href="catalog.html" class="back-button">Вернуться в магазин</a>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block script-name %}{% static 'main/js/basket-button.js' %}{% endblock %}

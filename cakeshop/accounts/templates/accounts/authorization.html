@@ -1,0 +1,60 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block css-file %}{% static 'main/css/authoriz.css' %}{% endblock %}
+
+{% block content %}
+  <div class="auth-wrapper">
+    <div class="auth-box">
+      <h2>Добро пожаловать</h2>
+      <p class="subtitle">Войдите, чтобы продолжить</p>
+      <div class="error-message" id="error-msg"></div>
+
+      <form id="login-form" method="POST" autocomplete="on">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        <div class="form-group">
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="error">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group password-wrapper">
+          {{ form.password }}
+          <span class="toggle-password" onclick="togglePassword('id_password')">👁</span>
+          {% if form.password.errors %}
+            <div class="error">{{ form.password.errors }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit">Войти</button>
+      </form>
+
+      <p class="register-text">
+        Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword(fieldId) {
+      const passwordField = document.getElementById(fieldId);
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+    }
+  </script>
+{% endblock %}

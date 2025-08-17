@@ -1,0 +1,64 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block css-file %}{% static 'main/css/authoriz.css' %}{% endblock %}
+
+{% block content %}
+  <div class="auth-wrapper">
+    <div class="auth-box">
+      <h2>Регистрация</h2>
+      <p class="subtitle">Заполните данные для создания аккаунта</p>
+      <div class="error-message" id="error-msg"></div>
+
+      <form id="register-form" method="POST" autocomplete="off">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        <div class="form-group">
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="error">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="error">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group password-wrapper">
+          {{ form.password1 }}
+          <span class="toggle-password" onclick="togglePassword('password1')">👁</span>
+          {% if form.password1.errors %}
+            <div class="error">{{ form.password1.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="form-group password-wrapper">
+          {{ form.password2 }}
+          <span class="toggle-password" onclick="togglePassword('password2')">👁</span>
+          {% if form.password2.errors %}
+            <div class="error">{{ form.password2.errors }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword(fieldId) {
+      const passwordField = document.getElementById(fieldId);
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+    }
+  </script>
+{% endblock %}
