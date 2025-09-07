@@ -1,0 +1,76 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block css-file %}{% static 'main/css/main.css' %}{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="basket-area">
+        <div class="left-side">
+
+        {% for item_with_price in items_with_price %}
+            <div class="selected-card"
+                 data-item-id="{{ item_with_price.item.id }}"
+                 data-unit-price="{{ item_with_price.item.cake.price }}"
+                 data-img="{{ item_with_price.item.cake.image.url }}">
+              <div class="card-img" style="background-image: url('{{ item_with_price.item.cake.image.url }}')"></div>
+            <div class="card-cont">
+                <button class="delete-button" data-item-id="{{ item_with_price.item.id }}">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <h3>{{ item_with_price.item.cake.name }}</h3>
+                <p class="per-item-price">{{ item_with_price.item.cake.price }} руб./шт.</p>
+                <div class="bottom-line">
+                    <div class="quantity-wrapper">
+                        <div class="first-but">
+                            <button class="decrement">−</button>
+                            <span class="quantity">{{ item_with_price.item.quantity }}</span>
+                            <button class="increment">+</button>
+                        </div>
+                    </div>
+                    <div class="price">{{ item_with_price.price }} руб.</div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>Корзина пуста</p>
+        {% endfor %}
+
+        </div>
+
+        <div class="payment-card">
+            <h1>Ваша корзина</h1>
+            <div class="price-row">
+                <span>Товары</span>
+                <span>{{ total_price }} руб.</span>  <!-- Изменить на динамическую переменную total_price -->
+            </div>
+            <div class="price-row">
+                <span>Скидка</span>
+                <span>{{ discount }} руб.</span>  <!-- Добавь переменную скидки -->
+            </div>
+            <div class="price-row total">
+                <span>Стоимость</span>
+                <span>{{ final_price }} руб.</span>  <!-- Итоговая стоимость -->
+            </div>
+
+            <h2>Дата и время получения</h2>
+            <input type="date" id="date" name="date" min="{{ min_date }}" required />
+            <input type="time" id="time" name="time" min="09:00" max="20:00" required />
+
+            <h2>Комментарий к заказу</h2>
+            <textarea class="comments" placeholder="Есть важные уточнения? Напишите здесь (аллергии, упаковка, детали доставки)."></textarea>
+
+            <form method="POST" action="{% url 'basket' %}">
+                {% csrf_token %}
+                <button type="submit" class="buy-button">Оформить заказ</button>
+            </form>
+            <a href="{% url 'catalog' %}" class="back-button">Вернуться в магазин</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script-name %}{% static 'main/js/basket-button.js' %}{% endblock %}
+

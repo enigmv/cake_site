@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление карточками</title>
+<style>
+:root {
+  --font1: 'Comfortaa', sans-serif;
+  --font2: 'Roboto', sans-serif;
+  --main-color: #AF1536;
+  --background-color: #F6F6F6;
+  --menu-text-color: #767676;
+}
+
+body {
+    font-family: var(--font2);
+    background-color: var(--background-color);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-family: var(--font1);
+    color: var(--main-color);
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+    margin-bottom: 15px;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--main-color);
+    outline: none;
+}
+
+button {
+    background-color: var(--main-color);
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: var(--font1);
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #8e0f2e;
+}
+
+.hidden {
+    display: none;
+}
+
+select#action {
+    margin-bottom: 20px;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <select name="action" id="action" onchange="location.href='?action='+this.value">
+        <option value="add" {% if action == "add" %}selected{% endif %}>Добавить</option>
+        <option value="edit" {% if action == "edit" %}selected{% endif %}>Изменить</option>
+        <option value="delete" {% if action == "delete" %}selected{% endif %}>Удалить</option>
+    </select>
+
+    {% if action != 'add' %}
+        <select name="edit_pk" onchange="location.href='?action={{ action }}&pk='+this.value">
+            <option value="">-- Выберите карточку --</option>
+            {% for card in cards %}
+                <option value="{{ card.id }}" {% if card.id|stringformat:"s" == edit_pk|stringformat:"s" %}selected{% endif %}>{{ card.name }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+
+    {% if form %}
+        <div id="formFields">
+            {{ form.as_p }}
+        </div>
+    {% endif %}
+
+    <button type="submit">Применить</button>
+</form>
+
+
+    <script>
+function toggleFields() {
+    const action = document.getElementById('action').value;
+    const formFields = document.getElementById('formFields');
+    const cardSelectGroup = document.getElementById('cardSelectGroup');
+
+    if (action === 'delete') {
+        // Удаление: показываем выбор карточки, скрываем поля ввода
+        formFields.classList.add('hidden');
+        cardSelectGroup.classList.remove('hidden');
+    } else if (action === 'edit') {
+        // Редактирование: показываем и выбор карточки и поля ввода
+        formFields.classList.remove('hidden');
+        cardSelectGroup.classList.remove('hidden');
+    } else {
+        // Добавление: показываем только поля ввода, скрываем выбор карточки
+        formFields.classList.remove('hidden');
+        cardSelectGroup.classList.add('hidden');
+    }
+}
+
+
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', toggleFields);
+document.getElementById('action').addEventListener('change', toggleFields);
+</script>
+
+</body>
+</html>
